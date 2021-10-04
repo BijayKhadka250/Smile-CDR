@@ -81,8 +81,6 @@ function App() {
       }else{
         temp.phoneNumber = phoneNumber[0].value
       }
-      console.log("phoneNumber",phoneNumber);
-      console.log("temp",temp);
       newArray.push(temp)
     })
 
@@ -94,8 +92,6 @@ function App() {
     Axios.get("https://try.smilecdr.com/baseR4/Patient").then((response) => {
       let time = new Date().getTime() - startTime
       setResponseTime(time)
-      console.log('time', time);
-      console.log("response", response);
       let data = response.data.entry
       let formatterArray = formatData(data)
      
@@ -133,7 +129,6 @@ function App() {
 }
 
   const renderSortIcon = () => {
-    console.log("order renderSortIcon",order);
     if(order === ""){
       return null
     }
@@ -145,7 +140,6 @@ function App() {
   }
 
   const renderSortIconBirth = () => {
-    console.log("order renderSortIcon",order);
     if(orderBirth === ""){
       return null
     }
@@ -156,7 +150,6 @@ function App() {
     return <FontAwesomeIcon icon={faSortDown} />
   } 
 
-  console.log("order",order);
 let sortedArray = [...patientsArray]
   if(order !== "" && column !=="" && column === "name"){
      sortedArray = _.orderBy(sortedArray, [column], [order])
@@ -170,7 +163,6 @@ let sortedArray = [...patientsArray]
     setSearchError("")
     setSuccessResult("")
     
-    console.log("firstName, lastName",firstName, lastName);
     let pattern = /^[a-z0-9]+$/i
 
      let errorBollean = false
@@ -190,7 +182,6 @@ let sortedArray = [...patientsArray]
       if(firstName !== "" && lastName!== ""){
         let startTime = new Date().getTime();
         Axios.get(`https://try.smilecdr.com/baseR4/Patient?given=${firstName}&family=${lastName}`).then((response) => {
-          console.log("response search", response);
           if(!response.data.entry){
             setSearchError(`No data is found with firstName = ${firstName} and lastName = ${lastName}`)
             setSearchData([])
@@ -205,7 +196,6 @@ let sortedArray = [...patientsArray]
       }else if (firstName === "" && lastName!== ""){
         let startTime = new Date().getTime();
         Axios.get(`https://try.smilecdr.com/baseR4/Patient?family=${lastName}`).then((response) => {
-          console.log("response By Family search", response);
           if(!response.data.entry){
             setSearchError(`No data is found with lastName = ${lastName}`)
             setSearchData([])
@@ -220,7 +210,6 @@ let sortedArray = [...patientsArray]
       }else if (firstName !== "" && lastName === ""){
         let startTime = new Date().getTime();
         Axios.get(`https://try.smilecdr.com/baseR4/Patient?given=${firstName}`).then((response) => {
-          console.log("response By first search", response);
           if(!response.data.entry){
             setSearchError(`No data is found with firstName = ${firstName} `)
             setSearchData([])
@@ -245,7 +234,6 @@ let sortedArray = [...patientsArray]
 
   const handleReset = () => {
     let formatterArray = formatData(SearchData)
-     console.log("formatterArray",formatterArray);
       setPatientArray(formatterArray)
 
   }
@@ -313,8 +301,8 @@ let sortedArray = [...patientsArray]
           </Col>
         </Row>
         }
-        
-        <Table striped bordered hover responsive style={{marginTop: '50px'}}>
+        <p style={{marginTop: '50px'}}><small>click on the table heading to sort in ascending and decending order</small></p>
+        <Table striped bordered hover responsive >
           <thead>
             <tr>
               <th onClick = {handleNameHeader} className="clickable">Name {renderSortIcon()}</th>
